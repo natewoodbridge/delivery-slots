@@ -5,7 +5,8 @@ import { HttpLink } from 'apollo-link-http'
 
 let apolloClient
 
-const baseURL = process.env.VERCEL_URL || '/'
+const baseURL =
+  process.env.VERCEL_URL || 'https://patch-delivery-slots.vercel.app/'
 
 export default function createApolloClient() {
   return new ApolloClient({
