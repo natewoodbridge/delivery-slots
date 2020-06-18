@@ -4,13 +4,13 @@
 
 To create this delivery booking system I used the following technologies:
 
-* DyanmoDB for storying data
+* DyanmoDB for storing data
 * GraphQL with Apollo Server for the data endpoint, and to wrap the DynamoDB puts/scans
 * React
 * Next JS for rendering the React App
 * Apollo Client for fetching and caching the GraphQL responses
 * Styled Components for adding styles
-* date-fns to help with rendering dates
+* `date-fns` to help with rendering dates
 
 ## Notes
 
