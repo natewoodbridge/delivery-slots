@@ -111,8 +111,6 @@ export const DeliverySlotPicker = ({ restrictedItem }) => {
     }
   )
 
-  // if(loadingMutation) return <div>Loading...</div>
-
   if (loading) return <div>Loading...</div>
   if (error) return <div>Failed to load</div>
 

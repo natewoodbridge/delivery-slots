@@ -11,9 +11,9 @@ import {
 } from '../components/DeliverySlotPicker'
 
 export default function Index() {
-  const [restrictedItem, setRestrictedItem] = useState(0)
+  const [restrictedItem, setRestrictedItem] = useState(false)
 
-  const handleClick = () => setRestrictedItem(restrictedItem ? 0 : 1)
+  const handleClick = (e) => setRestrictedItem(!restrictedItem)
 
   return (
     <Layout>
@@ -21,7 +21,7 @@ export default function Index() {
 
       <h2>Select Your Delivery Slot</h2>
       <label onClick={handleClick}>
-        <input type="checkbox" value={restrictedItem} />
+        <input type="checkbox" value={restrictedItem ? ' true' : 'false'} />
         Huge Plant (Restricted on Wednesdays)
       </label>
       <DeliverySlotPicker restrictedItem={restrictedItem} />

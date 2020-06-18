@@ -100,7 +100,7 @@ export const DayList = ({ days, selectSlot, selectedSlot }) => {
         Prev
       </button>
       <ul>{nodes}</ul>
-      <button onClick={nextPage} disabled={page === maxPage}>
+      <button onClick={nextPage} disabled={page >= maxPage}>
         Next
       </button>
     </StyledDayList>
