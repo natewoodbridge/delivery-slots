@@ -90,8 +90,6 @@ const createSlotsList = ({ next30Days, bookings, restrictedItem }) => {
     return dayWithBooking
   })
 
-  console.log(daysWithSlots)
-
   return daysWithSlots
 }
 

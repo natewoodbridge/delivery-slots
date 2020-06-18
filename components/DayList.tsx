@@ -95,9 +95,13 @@ export const DayList = ({ days, selectSlot, selectedSlot }) => {
     const newPage = page + 1
     setPage(newPage > maxPage ? maxPage : page + 1)
   }
+  const todayPage = () => {
+    setPage(0)
+  }
 
   return (
     <StyledDayList>
+      <button onClick={todayPage}>Today</button>
       <button onClick={prevPage}>Prev</button>
       <ul>{nodes}</ul>
       <button onClick={nextPage}>Next</button>

@@ -19,10 +19,15 @@ const StyledSlot = styled.p`
 
 export const Slot = ({ prettyDate, meta, selectSlot, isSelected }) => {
   const { code, bookings, avaliable, capacity } = meta
-  const handleClick = () => selectSlot({ slotDate: prettyDate, slotCode: code })
-
   // TODO: More robust logic could be put here to make sure that if capacity changed, a booking could not be made
   const isFull = bookings >= capacity
+
+  const handleClick = () => {
+    if (isFull || !avaliable) {
+      return null
+    }
+    selectSlot({ slotDate: prettyDate, slotCode: code })
+  }
 
   return (
     <StyledSlot
@@ -30,7 +35,7 @@ export const Slot = ({ prettyDate, meta, selectSlot, isSelected }) => {
       isFull={isFull}
       isSelected={isSelected}
       isAvaliable={avaliable}
-      onClick={isFull ? undefined : handleClick}
+      onClick={handleClick}
       title={`Debug Total bookings = ${bookings}`}
     >
       {code}

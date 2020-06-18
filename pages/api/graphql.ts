@@ -4,8 +4,13 @@ import { nanoid } from 'nanoid'
 // TODO: Could optimise this to only include parts of the library we need
 import AWS from 'aws-sdk'
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+AWS.config.update({
+  accessKeyId: process.env.PROJECT_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.PROJECT_AWS_SECRET_ACCESS_KEY,
+  region: process.env.PROJECT_AWS_REGION,
+})
 
+const docClient = new AWS.DynamoDB.DocumentClient()
 
 const typeDefs = gql`
   type Query {
@@ -26,27 +31,26 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     async bookings() {
-
-
-      const scanDatabase = (params) => new Promise((success, error) => {
-        docClient.scan(params, function(err, data) {
-          if (err) {
-            error(err);
-          } else {
-            success(data);
-          }
+      const scanDatabase = (params): any =>
+        new Promise((success, error) => {
+          docClient.scan(params, function (err, data) {
+            if (err) {
+              error(err)
+            } else {
+              success(data)
+            }
+          })
         })
-      })
 
       // try catch
       const data = await scanDatabase({
-        TableName : "PatchDeliverySlots",
+        TableName: 'PatchDeliverySlots',
       })
 
-      const response = data.Items.map(item => ({
+      const response = data.Items.map((item) => ({
         slotDate: item.slotDate,
         bookingId: item.bookingId,
-        slotCode: item.slotCode
+        slotCode: item.slotCode,
       }))
 
       return response
@@ -54,18 +58,18 @@ const resolvers = {
   },
   Mutation: {
     async createBooking(_parent, args) {
+      const { bookingId, slotDate, slotCode } = args
 
-      const { bookingId, slotDate, slotCode } = args;
-
-      const putItem = (params) => new Promise((success, error) => {
-        docClient.put(params, function(err, data) {
-          if (err) {
-            error(err)
-          } else {
-            success(data)
-          }
+      const putItem = (params) =>
+        new Promise((success, error) => {
+          docClient.put(params, function (err, data) {
+            if (err) {
+              error(err)
+            } else {
+              success(data)
+            }
+          })
         })
-      })
 
       let response
       try {
@@ -74,8 +78,8 @@ const resolvers = {
           Item: {
             slotDate,
             bookingId: nanoid(),
-            slotCode
-          }
+            slotCode,
+          },
         })
       } catch (err) {
         console.error('Could not put item', err)
@@ -86,8 +90,8 @@ const resolvers = {
         bookingId,
         slotCode,
       }
-    }
-  }
+    },
+  },
 }
 
 const apolloServer = new ApolloServer({ typeDefs, resolvers })
