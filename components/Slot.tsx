@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 const StyledSlot = styled.p`
   cursor: pointer;
+  position: relative;
 
   ${(props) =>
     (props.isFull || !props.isAvaliable) &&
@@ -15,6 +16,14 @@ const StyledSlot = styled.p`
     `
       background: #7fdc7f;
     `};
+
+  span {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+
+    font-size: 10px;
+  }
 `
 
 export const Slot = ({ prettyDate, meta, selectSlot, isSelected }) => {
@@ -36,10 +45,9 @@ export const Slot = ({ prettyDate, meta, selectSlot, isSelected }) => {
       isSelected={isSelected}
       isAvaliable={avaliable}
       onClick={handleClick}
-      title={`Debug Total bookings = ${bookings}`}
       className="slot"
     >
-      {code} {bookings}
+      {code} <span>{bookings}</span>
     </StyledSlot>
   )
 }
