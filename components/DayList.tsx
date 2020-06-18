@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { Slot } from './Slot'
 import { Button } from './Button'
 
+// TODO: This file could very easily be broken down into parts, but left it in one for each of review
+
 const PAGE_SIZE = 4
 
 const StyledDayList = styled.div`
@@ -26,17 +28,25 @@ const Day = styled.li`
   text-align: center;
   border-right: 1px solid black;
 
+  display: flex;
+  flex-direction: column;
+
   &:last-child {
     border-right: 0;
   }
 
-  > * {
+  .title,
+  .slot {
     margin: 0;
     padding: 12px;
     border-bottom: 1px solid black;
   }
 
-  > *:last-child {
+  .title {
+    flex: 1;
+  }
+
+  *:last-child {
     border-bottom: 0;
   }
 `
@@ -80,7 +90,7 @@ export const DayList = ({ days, selectSlot, selectedSlot }) => {
 
     return (
       <Day key={day.prettyDate}>
-        <p>{dayText}</p>
+        <p className="title">{dayText}</p>
         {slots}
       </Day>
     )
@@ -103,6 +113,7 @@ export const DayList = ({ days, selectSlot, selectedSlot }) => {
       <Button onClick={nextPage} disabled={page >= maxPage}>
         Next
       </Button>
+
       <ul>{nodes}</ul>
     </StyledDayList>
   )

@@ -10,6 +10,8 @@ import { getDatesArray } from '../lib/date-helpers'
 import { Button } from './Button'
 import { DayList } from './DayList'
 
+// TODO: This MASSIVE file needs to be broken into parts, but I left as one for review
+
 const SelectedSlot = styled.div`
   margin-top: 20px;
   margin-bottom: 30px;

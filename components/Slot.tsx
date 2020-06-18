@@ -37,6 +37,7 @@ export const Slot = ({ prettyDate, meta, selectSlot, isSelected }) => {
       isAvaliable={avaliable}
       onClick={handleClick}
       title={`Debug Total bookings = ${bookings}`}
+      className="slot"
     >
       {code} {bookings}
     </StyledSlot>
