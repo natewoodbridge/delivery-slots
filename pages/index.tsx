@@ -29,17 +29,17 @@ export default function Index() {
   )
 }
 
-// export const getStaticProps: GetStaticProps = async () => {
-//   const apolloClient = initializeApollo()
+export const getStaticProps: GetStaticProps = async () => {
+  const apolloClient = initializeApollo()
 
-//   await apolloClient.query({
-//     query: GET_BOOKINGS_QUERY,
-//   })
+  await apolloClient.query({
+    query: GET_BOOKINGS_QUERY,
+  })
 
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//     unstable_revalidate: 1,
-//   }
-// }
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+    unstable_revalidate: 1,
+  }
+}
