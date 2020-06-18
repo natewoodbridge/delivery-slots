@@ -1,0 +1,4 @@
+type Booking @collection(name: "bookings") {
+  date: String!
+  slotCode: String!
+}
