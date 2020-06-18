@@ -5,29 +5,32 @@ import { initializeApollo } from '../lib/apolloClient'
 
 import { Layout } from '../components/Layout'
 
-import {
-  DeliverySlotPicker,
-  GET_BOOKINGS_QUERY,
-} from '../components/DeliverySlotPicker'
+import { DeliverySlotPicker } from '../components/DeliverySlotPicker'
 
 export default function Index() {
-  const [restrictedItem, setRestrictedItem] = useState(false)
+  const [restrictedItem, setRestrictedItem] = useState(0)
 
-  const handleClick = (e) => setRestrictedItem(!restrictedItem)
+  const handleClick = (e) => setRestrictedItem(restrictedItem ? 0 : 1)
 
   return (
     <Layout>
-      <h1>Patch</h1>
+      <h1>Plot</h1>
 
       <h2>Select Your Delivery Slot</h2>
-      <label onClick={handleClick}>
-        <input type="checkbox" value={restrictedItem ? ' true' : 'false'} />
-        Huge Plant (Restricted on Wednesdays)
-      </label>
+      <input
+        type="checkbox"
+        value={restrictedItem ? 1 : 0}
+        id="huge"
+        onClick={handleClick}
+      />
+      <label htmlFor="huge">Huge Item (Restricted on Wednesdays)</label>
+
       <DeliverySlotPicker restrictedItem={restrictedItem} />
     </Layout>
   )
 }
+
+// TODO: Include this code to pre-load the query on SSR, giving full SSR support
 
 // export const getStaticProps: GetStaticProps = async () => {
 //   const apolloClient = initializeApollo()

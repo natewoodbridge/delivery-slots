@@ -38,7 +38,7 @@ export const Slot = ({ prettyDate, meta, selectSlot, isSelected }) => {
       onClick={handleClick}
       title={`Debug Total bookings = ${bookings}`}
     >
-      {code}
+      {code} {bookings}
     </StyledSlot>
   )
 }

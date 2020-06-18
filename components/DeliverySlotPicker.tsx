@@ -1,11 +1,24 @@
 import { useState } from 'react'
+import styled from 'styled-components'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
-import { format, getWeek, isFriday, isWednesday, isToday } from 'date-fns'
+import { format, getWeek, isFriday, isWednesday } from 'date-fns'
 
 import { getDatesArray } from '../lib/date-helpers'
+
+import { Button } from './Button'
 import { DayList } from './DayList'
+
+const SelectedSlot = styled.div`
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  em {
+    font-size: 0.7em;
+    margin-left: 5px;
+  }
+`
 
 export const GET_BOOKINGS_QUERY = gql`
   {
@@ -97,19 +110,18 @@ export const DeliverySlotPicker = ({ restrictedItem }) => {
   const [selectedSlot, selectSlot] = useState(null)
 
   const { data, loading, error } = useQuery(GET_BOOKINGS_QUERY)
-  const [addBooking, { loading: loadingMutation }] = useMutation(
-    CREATE_BOOKING_MUTATION,
-    {
-      refetchQueries: [
-        {
-          query: GET_BOOKINGS_QUERY,
-        },
-      ],
-      onCompleted: () => {
-        selectSlot(null)
-      },
-    }
-  )
+  const [addBooking] = useMutation(CREATE_BOOKING_MUTATION, {
+    onCompleted: () => {
+      selectSlot(null)
+    },
+    update(cache, { data: { createBooking } }) {
+      const { bookings } = cache.readQuery({ query: GET_BOOKINGS_QUERY })
+      cache.writeQuery({
+        query: GET_BOOKINGS_QUERY,
+        data: { bookings: bookings.concat([createBooking]) },
+      })
+    },
+  })
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Failed to load</div>
@@ -130,8 +142,8 @@ export const DeliverySlotPicker = ({ restrictedItem }) => {
 
   return (
     <>
-      <p>
-        Selected Slot:{' '}
+      <SelectedSlot>
+        <strong>Selected Slot:</strong>{' '}
         {selectedSlot ? (
           <span>
             {selectedSlot.slotDate} {selectedSlot.slotCode}
@@ -142,15 +154,15 @@ export const DeliverySlotPicker = ({ restrictedItem }) => {
         <span onClick={() => selectSlot(null)}>
           <em>Remove</em>
         </span>
-      </p>
+      </SelectedSlot>
       <DayList
         days={days}
         selectSlot={selectSlot}
         selectedSlot={selectedSlot}
       />
-      <button onClick={handleAddBooking} disabled={selectedSlot ? false : true}>
+      <Button onClick={handleAddBooking} disabled={selectedSlot ? false : true}>
         Reserve Slot
-      </button>
+      </Button>
     </>
   )
 }

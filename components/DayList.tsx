@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import styled from 'styled-components'
 
 import { Slot } from './Slot'
+import { Button } from './Button'
 
 const PAGE_SIZE = 4
 
@@ -12,8 +13,8 @@ const StyledDayList = styled.div`
     padding: 0;
     width: 100%;
 
+    /* This could be display grid wiht some adjustments */
     display: flex;
-
     list-style: none;
 
     border: 1px solid black;
@@ -57,7 +58,7 @@ export const DayList = ({ days, selectSlot, selectedSlot }) => {
   const activeDays = days.slice(startingItem, startingItem + PAGE_SIZE)
 
   const nodes = activeDays.map((day) => {
-    const dayText = format(day.date, 'do MMMM')
+    const dayText = format(day.date, 'E do MMMM')
     const slots = day.slots.map((slot) => {
       const { code } = slot
 
@@ -93,16 +94,16 @@ export const DayList = ({ days, selectSlot, selectedSlot }) => {
 
   return (
     <StyledDayList>
-      <button onClick={todayPage} disabled={page === 0}>
+      <Button onClick={todayPage} disabled={page === 0}>
         Today
-      </button>
-      <button onClick={prevPage} disabled={page === 0}>
+      </Button>
+      <Button onClick={prevPage} disabled={page === 0}>
         Prev
-      </button>
-      <ul>{nodes}</ul>
-      <button onClick={nextPage} disabled={page >= maxPage}>
+      </Button>
+      <Button onClick={nextPage} disabled={page >= maxPage}>
         Next
-      </button>
+      </Button>
+      <ul>{nodes}</ul>
     </StyledDayList>
   )
 }

@@ -4,6 +4,8 @@ import { nanoid } from 'nanoid'
 // TODO: Could optimise this to only include parts of the library we need
 import AWS from 'aws-sdk'
 
+// TODO: Thsi file needs to be broken down into different parts, but I kept it all here for ease of reading
+
 AWS.config.update({
   accessKeyId: process.env.PROJECT_AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.PROJECT_AWS_SECRET_ACCESS_KEY,
@@ -42,9 +44,9 @@ const resolvers = {
           })
         })
 
-      // try catch
+      // TODO: Wrap this in try/catch to handle any errors
       const data = await scanDatabase({
-        TableName: 'PatchDeliverySlots',
+        TableName: 'DeliverySlots',
       })
 
       const response = data.Items.map((item) => ({
@@ -74,7 +76,7 @@ const resolvers = {
       let response
       try {
         response = await putItem({
-          TableName: 'PatchDeliverySlots',
+          TableName: 'DeliverySlots',
           Item: {
             slotDate,
             bookingId: nanoid(),
@@ -82,6 +84,7 @@ const resolvers = {
           },
         })
       } catch (err) {
+        // TODO: Better handling of errors
         console.error('Could not put item', err)
       }
 
